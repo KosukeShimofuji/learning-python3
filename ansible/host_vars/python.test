@@ -1,0 +1,4 @@
+---
+hostname: 'python.test'
+ansible_user: vagrant
+
