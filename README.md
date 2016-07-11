@@ -444,6 +444,60 @@ $ python sys_path.py
 ['/home/kosuke/learning-python3/module', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages']
 ```
 
+## 例外
+
+```
+$ cat 01.py
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+print('hoge)
+```
+
+上記スクリプトは壊れています。
+
+```
+$ python 01.py
+  File "01.py", line 4
+    print('hoge)
+               ^
+SyntaxError: EOL while scanning string literal
+```
+
+実行するとSytanxError例外が送出されていることがわかります。
+このような例外をtrapして処理を制御することができます。
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import sys
+
+try:
+    f = open('myfile.txt')
+    s = f.readline()
+except IOError:
+    print("can not open file")
+else:
+    f.close
+```
+
+上記の例ではmyfile.txtが存在しない場合、PythonはIOErrorを発生させます。
+IOErrorエラーハンドルをtrapしてメッセージを出すようにコーディングされています。
+exceptはIOErrorなどの特定のハンドラを指定しない場合、ワイルドカードのようにあらゆるエラーハンドルをtrapします。
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import sys
+
+try:
+    raise NameError('Hello Error')
+except NameError as err:
+    print(err)
+```
+
+raiseは任意の例外を送出することができます。
+
 # 参考文献
 
  * http://qiita.com/Kodaira_/items/feadfef9add468e3a85b
