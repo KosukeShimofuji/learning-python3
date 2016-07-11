@@ -71,6 +71,27 @@ python3のみで使える模様。
 print("Hello", end="")
 ```
 
+## 引数の受け渡し
+
+pythonの引数の受け渡しはsys.argvを通して行うためsysモジュールをインポートする必要がある。
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import sys
+
+for i in sys.argv:
+    print i
+```
+
+```
+$ python argv.py 1 2 3
+argv.py
+1
+2
+3
+```
+
 ## データ構造
 
 ### 文字列型(String)
@@ -146,13 +167,208 @@ Perlのハッシュなどと同じデータ構造です。
 
 ## 制御構造
 
+### if文
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+x = int(input("plese enter an integer: "))
+if x < 0:
+    print ("Negative integer")
+elif x == 0:
+    print ("Zero")
+elif x==1:
+    print ("Single")
+else:
+    print("More")
+```
+
+elseifではなくてelifとさらに短くなっている。
+
+```
+kosuke@chaos ~/learning-python3 $ python if.py
+plese enter an integer: 10
+More
+kosuke@chaos ~/learning-python3 $ python if.py
+plese enter an integer: 1
+Single
+kosuke@chaos ~/learning-python3 $ python if.py
+plese enter an integer: -10
+Negative integer
+```
+
+### for文
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+words = ['cat', 'window', 'defensetrate']
+for w in words:
+    print (w, len(w))
+```
+
+CやPerlのfor文とは違いpythonのfor文はリストや文字列などのシーケンス型にわたって反復処理を行う。
+
+```
+('cat', 3)
+('window', 6)
+('defensetrate', 12)
+```
+
+### range関数
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+for i in range(5):
+    print(i)
+```
+
+数列に対して処理を行いたい場合はrange関数を使うのが便利です。
+
+```
+0
+1
+2
+3
+4
+```
+
+rangeには開始値、最大値、増加値を指定することができます。
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+for i in range(-10, 10, 3):
+    print(i)
+```
+
+-10から初めて最大値10まで増加値を3に設定して実行してみます。
+
+```
+$ python range.py
+-10
+-7
+-4
+-1
+2
+5
+8
+```
+
+リストにindexでアクセスする際にもrangeを使用することができます。
+
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+a = ['Mary', 'had', 'a', 'little', 'lamb']
+for i in range(len(a)):
+    print (i, a[i])
+```
+
+```
+$ python range.py
+(0, 'Mary')
+(1, 'had')
+(2, 'a')
+(3, 'little')
+(4, 'lamb')
+```
+
+## break文とcontinue文とループのelse節
+
+break文とcontinue文の挙動はCと同じです。注目すべきはpythonはfor文などの繰り返し文にelse節を持てるということです。else節は繰り返し条件の終了時に呼ばれますが、breakなどで抜けた場合には実行されません。
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+for n in range(2,10):
+    for x in range(2,n):
+        if n % x == 0:
+            print(n, 'equals',  x, '*', n//x)
+            break
+    else:
+        print(n, 'is a prime number')
+```
+
+このコードのelse節はif文ではなくfor文にかかっていることに注目してください。
+
+```
+(2, 'is a prime number')
+(3, 'is a prime number')
+(4, 'equals', 2, '*', 2)
+(5, 'is a prime number')
+(6, 'equals', 2, '*', 3)
+(7, 'is a prime number')
+(8, 'equals', 2, '*', 4)
+(9, 'equals', 3, '*', 3)
+```
+
+### pass文
+
+pass文は何もしません。構文上ステートメントが必要だが、実装の内容はきまっていないときにとりあえず何もしない処理を書いておくときに便利です。
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+while True:
+    pass
+```
+
+何もせず、ただずっと繰り返すスクリプトは上記のようにかけます。
+
 ## 関数
 
-### docstirng
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-### ramda
+def fib2(n):
+        """Retrun a list containg the Fibonacci series up to n """
+        result = []
+        a, b = 0, 1
+        while a < n:
+            result.append(a)
+            a,b = b, a+b
+        return result
 
-## モジュール
+print (fib2(100))
+```
+
+関数はdefキーワードで始まり、()内に引数を受け取るリストを指定しなければなりません。
+"""で囲まれた文字列はdoc
+stringであり、ドキュメンテーション文字列を使ったツールなどで出力されます。
+
+関数の中の変数はすべてローカル変数であり、関数の終了とともに削除されます。(シンボルテーブルから除去される)
+グローバル変数の参照は可能ですが、ローカル変数と名前が一致していた場合、ローカル変数の値が優先されます。
+関数内でグローバル変数に値を代入するにはglobal文で明示しなければなりません。
+
+関数の引数の受け取り方にはデフォルト引数の指定や、キーワード引数、可変引数を設定することができます。
+
+## lambda
+
+lambdaを使えば名前のない関数を定義することができます。
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+f = lambda a,b:a+b
+print(f(2,3))
+```
+
+```
+$ python lambda.py
+5
+```
 
 # 参考文献
 
