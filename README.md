@@ -370,6 +370,80 @@ $ python lambda.py
 5
 ```
 
+## モジュール
+
+拡張子pyのファイルはすべてモジュールです。モジュールはそれぞれシンボルを持つため、同じ変数名を使っていたとしても名前空間が衝突することは通常ありません。
+
+ * a.py
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+a = ['hoge', 'foo', 'bar']
+
+def hello():
+    print("Hello World")
+
+def name():
+    print(__name__)
+
+if __name__ == '__main__':
+    print "Run as a script"
+```
+
+ * run.py
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import a
+
+a.hello()
+a.name()
+```
+
+ * run.pyの実行
+
+```
+$ python run.py
+Hello World
+a
+```
+
+ * a.pyの実行
+
+```
+$ python a.py
+Run as a script
+```
+
+特定のシンボルだけを取り出すこともできます。
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from a import hello
+
+hello()
+```
+
+モジュールはsys.pathに格納されるディレクトリの順で検索されます。
+
+```
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import sys
+print(sys.path)
+```
+
+```
+$ python sys_path.py
+['/home/kosuke/learning-python3/module', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages']
+```
+
 # 参考文献
 
  * http://qiita.com/Kodaira_/items/feadfef9add468e3a85b
