@@ -498,9 +498,20 @@ except NameError as err:
 
 raiseは任意の例外を送出することができます。
 
+## クラス
+
+## My Python Project Packaging and Distribute
+
+```
+pip install setuptools wheel twine
+```
+
 # 参考文献
 
  * http://qiita.com/Kodaira_/items/feadfef9add468e3a85b
  * http://docs.python.jp/3.5/tutorial/index.html
+ * https://pypi.python.org/pypi
+ * http://docs.python.jp/3.5/distributing/index.html
+
 
 
